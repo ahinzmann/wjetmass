@@ -1,1 +1,56 @@
-# wjetmass
+--- HEPDATA
+
+# >>> conda initialize >>>
+ !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+python make_hep_data.py
+
+submit to sandbox of hepdata and download yoda files
+
+--- RIVET
+
+# first setup
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+export SCRAM_ARCH=slc7_amd64_gcc11
+cd /afs/desy.de/user/h/hinzmann/wjetmass/
+cmsrel CMSSW_13_2_0
+cd CMSSW_13_2_0/src
+cmsenv
+git-cms-init
+git-cms-addpkg GeneratorInterface/RivetInterface
+git-cms-addpkg Configuration/Generator
+git clone ssh://git@gitlab.cern.ch:7999/hinzmann/Rivet.git
+cd Rivet
+git remote add cms-gen ssh://git@gitlab.cern.ch:7999/cms-gen/Rivet.git
+git checkout jetwmass
+source rivetSetup.sh
+scram b -j8
+
+# every time
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+export SCRAM_ARCH=slc7_amd64_gcc11
+cd /afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/
+cmsenv
+cd Rivet
+source rivetSetup.sh
+cd /afs/desy.de/user/h/hinzmann/wjetmass
+
+# run analysis
+cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_13TeV_cfg.py
+
+export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
+
+rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_Apr2024.yoda
+
