@@ -1,6 +1,6 @@
---- HEPDATA
+# HEPDATA
 
-# >>> conda initialize >>>
+## init environment
  !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -13,15 +13,15 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
 
+# create HepData entry
 python make_hep_data.py
 
 submit to sandbox of hepdata and download yoda files
 
---- RIVET
+# RIVET
 
-# first setup
+## first setup
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc7_amd64_gcc11
 cd /afs/desy.de/user/h/hinzmann/wjetmass/
@@ -38,7 +38,7 @@ git checkout jetwmass
 source rivetSetup.sh
 scram b -j8
 
-# every time
+## init environment
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc7_amd64_gcc11
 cd /afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/
@@ -47,7 +47,7 @@ cd Rivet
 source rivetSetup.sh
 cd /afs/desy.de/user/h/hinzmann/wjetmass
 
-# run analysis
+## run analysis
 cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_13TeV_cfg.py
 
 export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
