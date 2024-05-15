@@ -19,7 +19,9 @@ unset __conda_setup
 
 ## create HepData entry
 
+```
 python make_hep_data.py
+```
 
 submit to sandbox of hepdata and download yoda files
 
