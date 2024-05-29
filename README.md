@@ -41,9 +41,9 @@ cmsenv
 git-cms-init
 git-cms-addpkg GeneratorInterface/RivetInterface
 git-cms-addpkg Configuration/Generator
-git clone ssh://git@gitlab.cern.ch:7999/hinzmann/Rivet.git
+git clone https://gitlab.cern.ch/hinzmann/Rivet.git
 cd Rivet
-git remote add cms-gen ssh://git@gitlab.cern.ch:7999/cms-gen/Rivet.git
+git remote add cms-gen https://gitlab.cern.ch/cms-gen/Rivet.git
 git checkout jetwmass
 source rivetSetup.sh
 scram b -j8
