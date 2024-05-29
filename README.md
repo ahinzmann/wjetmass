@@ -27,6 +27,8 @@ submit to sandbox of hepdata and download yoda files
 
 # RIVET
 
+ssh naf-cms.desy.de
+
 ## first setup
 
 ```
