@@ -54,11 +54,11 @@ scram b -j8
 ```
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc7_amd64_gcc11
-cd /afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/
+cd /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/
 cmsenv
 cd Rivet
 source rivetSetup.sh
-cd /afs/desy.de/user/h/hinzmann/wjetmass
+cd /afs/desy.de/user/c/chenemil/wjetmass
 ```
 
 ## run analysis
@@ -69,4 +69,12 @@ cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_13TeV_cfg.py
 export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
 
 rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_Apr2024.yoda
+```
+
+## modify code
+
+```
+cd CMSSW_13_2_0/src
+# Rivet/SMP/src/CMS_2024_wjetmass.cc
+scram b -j8
 ```
