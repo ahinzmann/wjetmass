@@ -78,6 +78,10 @@ cd CMSSW_13_2_0/src
 # Rivet/SMP/src/CMS_2024_wjetmass.cc
 scram b -j8
 ```
+
 ## running madgraph
+
+```
 cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphPythia_13TeV_cfg.py
 cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphHerwig_13TeV_cfg.py
+```
