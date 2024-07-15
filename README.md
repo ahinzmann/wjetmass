@@ -37,6 +37,7 @@ export SCRAM_ARCH=slc7_amd64_gcc11
 cd /afs/desy.de/user/h/hinzmann/wjetmass/
 cmsrel CMSSW_13_2_0
 cd CMSSW_13_2_0/src
+cmssw-el7 --bind /nfs:/nfs
 cmsenv
 git-cms-init
 git-cms-addpkg GeneratorInterface/RivetInterface
@@ -47,6 +48,12 @@ git remote add cms-gen https://gitlab.cern.ch/cms-gen/Rivet.git
 git checkout jetwmass
 source rivetSetup.sh
 scram b -j8
+
+# CMSSW singularity is missing latex commands
+cp /usr/bin/latex /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
+cp /usr/bin/dvips /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
+cp /usr/bin/ps2pdf /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
+cp /usr/bin/conver /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
 ```
 
 ## init environment
