@@ -33,19 +33,18 @@ ssh naf-cms.desy.de
 
 ```
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-export SCRAM_ARCH=slc7_amd64_gcc11
-cd /afs/desy.de/user/h/hinzmann/wjetmass/
+export SCRAM_ARCH=el9_amd64_gcc11
+cd /afs/desy.de/user/c/chenemil/wjetmass/
 cmsrel CMSSW_13_2_0
 cd CMSSW_13_2_0/src
-cmssw-el7 --bind /nfs:/nfs
 cmsenv
 git-cms-init
 git-cms-addpkg GeneratorInterface/RivetInterface
 git-cms-addpkg Configuration/Generator
-git clone https://gitlab.cern.ch/hinzmann/Rivet.git
+git clone https://github.com/chenemil/Rivet
+#git clone ssh://git@gitlab.cern.ch:7999/hinzmann/Rivet.git
 cd Rivet
-git remote add cms-gen https://gitlab.cern.ch/cms-gen/Rivet.git
-git checkout jetwmass
+git checkout wjetmass
 source rivetSetup.sh
 scram b -j8
 ```
@@ -54,13 +53,13 @@ scram b -j8
 
 ```
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-export SCRAM_ARCH=slc7_amd64_gcc11
+export SCRAM_ARCH=el9_amd64_gcc11
 cd /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/
-cmssw-el7 --bind /nfs:/nfs
 cmsenv
 cd Rivet
 source rivetSetup.sh
 cd /afs/desy.de/user/c/chenemil/wjetmass
+alias python=python3
 ```
 
 ## run analysis
