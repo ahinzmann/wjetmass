@@ -55,6 +55,7 @@ scram b -j8
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc7_amd64_gcc11
 cd /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/
+cmssw-el7 --bind /nfs:/nfs
 cmsenv
 cd Rivet
 source rivetSetup.sh
