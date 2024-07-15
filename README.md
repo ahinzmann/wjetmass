@@ -48,12 +48,6 @@ git remote add cms-gen https://gitlab.cern.ch/cms-gen/Rivet.git
 git checkout jetwmass
 source rivetSetup.sh
 scram b -j8
-
-# CMSSW singularity is missing latex commands
-cp /usr/bin/latex /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
-cp /usr/bin/dvips /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
-cp /usr/bin/ps2pdf /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
-cp /usr/bin/conver /afs/desy.de/user/c/chenemil/wjetmass/CMSSW_13_2_0/src/Rivet/scripts
 ```
 
 ## init environment
