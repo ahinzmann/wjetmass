@@ -1,3 +1,4 @@
+print("start hepdata_lib")
 import hepdata_lib
 print("hepdata_lib version", hepdata_lib.__version__)
 
@@ -9,18 +10,19 @@ submission.add_link("Webpage with all figures and tables", "https://cms-results.
 submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:TODO")
 submission.add_record_id(0, "inspire")
 
-for selection in ["","_N2Cut"]:
+for pt in ["sum","pt1","pt2","pt3"]:
+ for selection in ["","_N2Cut"]:
   from hepdata_lib import Table
-  table = Table("Figure 1"+selection)
-  table.description = "Jet mass distribution"+selection
+  table = Table("Figure 1"+selection+" "+pt)
+  table.description = "Jet mass distribution"+selection+" "+pt
   table.location = "Data from Figure TODO, located on page TODO."
   table.keywords["observables"] = ["DSIG/DM"]
   table.keywords["reactions"] = ["P P --> W + JET"]
-  table.add_image("m_unfold_suminclusive"+selection+".pdf")
+  table.add_image("m_unfold_"+pt+"inclusive"+selection+".pdf")
 
   from hepdata_lib import RootFileReader
   reader = RootFileReader("CombinedFit_results"+selection+".root")
-  Data = reader.read_graph("munfold_matching_sum")
+  Data = reader.read_graph("munfold_matching_"+pt.replace("pt","ipt"))
 
   from hepdata_lib import Variable, Uncertainty
   mjet = Variable("$M_{SD}$", is_independent=True, is_binned=True, units="GeV")
