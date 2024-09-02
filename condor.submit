@@ -4,15 +4,15 @@ universe          = vanilla
 notification      = Error
 notify_user       = andreas.hinzmann@desy.de
 initialdir        = /afs/desy.de/user/h/hinzmann/wjetmass/
-output            = madgraph$(JobId).o
-error             = madgraph$(JobId).e
-log               = madgraph$(JobId).log
+output            = gen$(JobId).o
+error             = gen$(JobId).e
+#log               = gen$(JobId).log
 #Requesting CPU and DISK Memory - default +RequestRuntime of 3h stays unaltered
 +RequestRuntime   = 40000
-#RequestMemory     = 10G
-JobBatchName      = madgraph$(JobId)
+RequestMemory     = 10G
+JobBatchName      = gen$(JobId)
 #RequestDisk       = 10G
 getenv            = True
 executable        = /usr/bin/sh
-arguments         = " condor.sh $(JobId)"
+arguments         = " condor.sh $(JobId) Pythia"
 queue 1

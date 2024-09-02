@@ -20,7 +20,19 @@ unset __conda_setup
 ## create HepData entry
 
 ```
-python make_hep_data.py
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/CombinedFit_results.root CombinedFit_results.root
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/CombinedFit_results.root CombinedFit_results_N2Cut.root
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf .
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf .
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf .
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf .
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_07-08-23/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf .
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf m_unfold_suminclusive_N2Cut.pdf
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf m_unfold_pt0inclusive_N2Cut.pdf
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf m_unfold_pt1inclusive_N2Cut.pdf
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf m_unfold_pt2inclusive_N2Cut.pdf
+cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_02-04-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf m_unfold_pt3inclusive_N2Cut.pdf
+python3 make_hep_data.py
 ```
 
 submit to sandbox of hepdata and download yoda files
