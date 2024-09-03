@@ -76,7 +76,9 @@ cd /afs/desy.de/user/c/chenemil/wjetmass
 alias python=python3
 unset PYTHONPATH
 unset PYTHONHOME
+cd CMSSW_13_2_0/src
 cmsenv
+cd ../..
 ```
 
 ## run generation and analysis
