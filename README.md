@@ -71,7 +71,12 @@ cmsenv
 cd Rivet
 source rivetSetup.sh
 cd /afs/desy.de/user/c/chenemil/wjetmass
+
+# possibly need to fix python
 alias python=python3
+unset PYTHONPATH
+unset PYTHONHOME
+cmsenv
 ```
 
 ## run analysis
