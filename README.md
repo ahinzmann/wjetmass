@@ -82,6 +82,7 @@ cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_13TeV_cfg.py
 export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
 
 rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_Apr2024.yoda
+rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_2Sep2024.yoda:'Title=Pythia' WJET_MadgraphPythia_2Sep2024.yoda:'Title=Madgraph+Pythia' WJET_MadgraphHerwig_2Sep2024.yoda:'Title=Madgraph+Herwig'
 ```
 
 ## modify code
