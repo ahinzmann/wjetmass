@@ -79,10 +79,12 @@ unset PYTHONHOME
 cmsenv
 ```
 
-## run analysis
+## run generation and analysis
 
 ```
 cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_13TeV_cfg.py
+cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphPythia_13TeV_cfg.py
+cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphHerwig_13TeV_cfg.py
 
 export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
 
@@ -98,13 +100,6 @@ cd CMSSW_13_2_0/src
 scram b -j8
 ```
 
-## running madgraph
-
-```
-cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphPythia_13TeV_cfg.py
-cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphHerwig_13TeV_cfg.py
-```
-
 ## running with condor
 
 ```
@@ -112,6 +107,6 @@ edit condor.sh and modify outputfile names and output directories to needs
 test if it runs locally with some random seed (here 123): source condor.sh 123
 submit one job (can be repeated multiple times): condor_submit condor.submit
 watch job status: condor_q
-check logfiles: madgraph*.log, madgraph*.o, madgraph*.e
+check logfiles: gen*.log, gen*.o, gen*.e
 check outputfiles: /nfs/dust/cms/user/hinzmann/job*
 ```
