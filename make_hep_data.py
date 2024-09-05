@@ -10,11 +10,14 @@ submission.add_link("Webpage with all figures and tables", "https://cms-results.
 submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:TODO")
 submission.add_record_id(0, "inspire")
 
+n=0
 for pt in ["sum","pt1","pt2","pt3"]:
  for selection in ["","_N2Cut"]:
+  n+=1
   from hepdata_lib import Table
-  table = Table("Figure 1"+selection+" "+pt)
-  table.description = "Jet mass distribution"+selection+" "+pt
+  text=selection.replace("_N2Cut","N2<0.2, ")+" "+pt.replace("sum","p$_T$>650 GeV").replace("pt1","650<p$_T$<800 GeV").replace("pt2","800<p$_T$<1200 GeV").replace("pt3","p$_T$>1200 GeV")
+  table = Table("Figure "+str(n)+" ("+text+")")
+  table.description = "Jet mass distribution, "+text
   table.location = "Data from Figure TODO, located on page TODO."
   table.keywords["observables"] = ["DSIG/DM"]
   table.keywords["reactions"] = ["P P --> W + JET"]
