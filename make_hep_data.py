@@ -32,6 +32,8 @@ for pt in ["sum","pt1","pt2","pt3"]:
   mjet.values = [[Data["x"][i]+Data["dx"][i][0],Data["x"][i]+Data["dx"][i][1]] for i in range(len(Data["x"]))]
   data = Variable("d$\sigma$/d$M_{SD}$", is_independent=False, is_binned=False, units="fb/GeV")
   data.values = Data["y"]
+  # Multiply contents by bin-width
+  #data.values = [data.values[i]*(mjet.values[i][1]-mjet.values[i][0]) for i in range(len(data.values))]
   unc_data = Uncertainty("total uncertainty", is_symmetric=False)
   unc_data.values = Data["dy"]
   data.add_uncertainty(unc_data)

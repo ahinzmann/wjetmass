@@ -14,5 +14,5 @@ JobBatchName      = gen
 #RequestDisk       = 10G
 getenv            = True
 executable        = /usr/bin/sh
-arguments         = " condor.sh $(JobId) MadgraphHerwig"
+arguments         = " condor.sh $(JobId) Pythia"
 queue 1
