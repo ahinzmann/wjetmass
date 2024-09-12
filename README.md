@@ -91,8 +91,8 @@ cmsRun CMSSW_13_2_0/src/Rivet/SMP/test/runRivetAnalyzer_WJET_MadgraphHerwig_13Te
 export RIVET_DATA_PATH=$RIVET_DATA_PATH:/afs/desy.de/user/h/hinzmann/wjetmass/CMSSW_13_2_0/src/Rivet/SMP/data/
 
 rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_Apr2024.yoda
-rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_2Sep2024.yoda:'Title=Pythia':ErrorBars=1:LineStyle=dashed:PolyMarker=square:DotScale=1.5 WJET_MadgraphPythia_2Sep2024.yoda:'Title=Madgraph+Pythia':ErrorBars=1:PolyMarker=triangle:DotScale=1.5 WJET_MadgraphHerwig_2Sep2024.yoda:'Title=Madgraph+Herwig':ErrorBars=1:LineStyle=dotted:PolyMarker=diamond:DotScale=1.5
-rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_MadgraphPythia_2Sep2024.yoda:'Title=Madgraph+Pythia':ErrorBars=1:PolyMarker=triangle:DotScale=1.5 WJET_MadgraphHerwig_2Sep2024.yoda:'Title=Madgraph+Herwig':ErrorBars=1:LineStyle=dotted:PolyMarker=diamond:DotScale=1.5 --no-rivet-refs
+rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_Pythia8_CP5_5Sep2024.yoda:'Title=Pythia':ErrorBars=1:LineStyle=dashed:PolyMarker=square:DotScale=1.5 WJET_MadgraphPythia_5Sep2024.yoda:'Title=Madgraph+Pythia':ErrorBars=1:PolyMarker=triangle:DotScale=1.5 WJET_MadgraphHerwig_5Sep2024.yoda:'Title=Madgraph+Herwig':ErrorBars=1:LineStyle=dotted:PolyMarker=diamond:DotScale=1.5
+rivet-mkhtml -c CMSSW_13_2_0/src/Rivet/SMP/data/CMS_2024_wjetmass.plot WJET_MadgraphPythia_5Sep2024.yoda:'Title=Madgraph+Pythia':ErrorBars=1:PolyMarker=triangle:DotScale=1.5 WJET_MadgraphHerwig_5Sep2024.yoda:'Title=Madgraph+Herwig':ErrorBars=1:LineStyle=dotted:PolyMarker=diamond:DotScale=1.5 --no-rivet-refs
 ```
 
 ## modify code
