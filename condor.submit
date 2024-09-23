@@ -10,9 +10,9 @@ initialdir        = /afs/desy.de/user/h/hinzmann/wjetmass/
 #Requesting CPU and DISK Memory - default +RequestRuntime of 3h stays unaltered
 +RequestRuntime   = 80000
 RequestMemory     = 10G
-JobBatchName      = gen
+JobBatchName      = genMass
 #RequestDisk       = 10G
 getenv            = True
 executable        = /usr/bin/sh
-arguments         = " condor.sh $(JobId) Pythia"
+arguments         = " condor.sh $(JobId) Pythia81"
 queue 1
