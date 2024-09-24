@@ -74,7 +74,7 @@ if __name__=="__main__":
   measured=[]
   measured_up=[]
   measured_down=[]
-  for skip in [0,*all_masses]:
+  for skip in [0,"0MP","0MH",*all_masses]:
 
     data=[]
     correlations=[]
@@ -115,8 +115,13 @@ if __name__=="__main__":
     first=True
     for mass in ["Data",*masses]:
         if mass=="Data":
-          samplename="HEPData-1725442863-v1-yoda1"
-          if skip>0:
+          if skip==0:
+            samplename="HEPData-1725442863-v1-yoda1"
+          elif skip=="0MP":
+            samplename="WJET_MadgraphPythia_12Sep2024"
+          elif skip=="0MH":
+            samplename="WJET_MadgraphHerwig_17Sep2024"
+          else:
             samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Sep2024"
         else:
           samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Sep2024"
@@ -130,8 +135,10 @@ if __name__=="__main__":
           for b in range(hist.GetNbinsX()):
             hist.SetBinContent(b+1,hist.GetBinContent(b+1)*hist.GetXaxis().GetBinWidth(b+1))
             hist.SetBinError(b+1,hist.GetBinError(b+1)*hist.GetXaxis().GetBinWidth(b+1))
+        hist.Scale(1.0/hist.Integral(min_b+1,max_b))
+        if "Data" in samplename:
           histdata=hist.Clone("data"+var)
-        hist.Scale(histdata.Integral(min_b+1,max_b)/hist.Integral(min_b+1,max_b))
+        #hist.Scale(histdata.Integral(min_b+1,max_b)/hist.Integral(min_b+1,max_b))
         if mass=="Data":
           for b in range(hist.GetNbinsX()):
             hist.SetBinError(b+1,histdata.GetBinError(b+1))
@@ -287,8 +294,8 @@ if __name__=="__main__":
         for m in range(len(masses)):
           s+=str(templates[m][t])+" "
         f.write(s+"\n") 
-    os.system("cd /afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen;/afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen/build/bin/CMS_wjetmass /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+" > CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt")
-    with open("/afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt") as f:
+    os.system("cd /afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen;/afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen/build/bin/CMS_wjetmass /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+" > /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt")
+    with open("/afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt") as f:
       count=0
       for l in f.readlines():
         if "Error" in l:
