@@ -24,7 +24,7 @@ for pt in ["sum","pt1","pt2","pt3"]:
   table.add_image("m_unfold_"+pt+"inclusive"+selection+".pdf")
 
   from hepdata_lib import RootFileReader
-  reader = RootFileReader("CombinedFit_results"+selection+".root")
+  reader = RootFileReader("CombinedFit_results"+selection+"_NoSys.root")
   Data = reader.read_graph("munfold_matching_"+pt.replace("pt","ipt"))
 
   from hepdata_lib import Variable, Uncertainty

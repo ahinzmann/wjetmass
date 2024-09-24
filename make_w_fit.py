@@ -74,16 +74,17 @@ if __name__=="__main__":
   measured=[]
   measured_up=[]
   measured_down=[]
-  for skip in [0,"0MP","0MH",*all_masses]:
+  datasets=["0Data","0DataNoSys","0MP","0MH"]
+  for skip in [*datasets,*all_masses]:
 
     data=[]
     correlations=[]
     templates=[]
 
     if "d01" in var:
-      corr_file="poi_correlation_matrix-noN2.npy"
+      corr_file="poi_correlation_matrix-noN2"+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
     else:
-      corr_file="poi_correlation_matrix-withN2.npy"
+      corr_file="poi_correlation_matrix-withN2"+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
     result = np.load(corr_file, allow_pickle=True, encoding="latin1").item()
     pois = result["pois"]
     corr = result["correlationMatrix"]
@@ -115,8 +116,10 @@ if __name__=="__main__":
     first=True
     for mass in ["Data",*masses]:
         if mass=="Data":
-          if skip==0:
-            samplename="HEPData-1725442863-v1-yoda1"
+          if skip=="0Data":
+            samplename="HEPData-yoda1"
+          elif skip=="0DataNoSys":
+            samplename="HEPData-yoda1-NoSys"
           elif skip=="0MP":
             samplename="WJET_MadgraphPythia_12Sep2024"
           elif skip=="0MH":
@@ -202,7 +205,7 @@ if __name__=="__main__":
         else:
           hist.Draw("hpsame")
               
-        l.AddEntry(hist,str(mass),"lp")
+        l.AddEntry(hist,str(mass)+(" GeV" if not mass=="Data" else ""),"lp")
         color+=1
 
     l.Draw("same")
@@ -310,7 +313,7 @@ if __name__=="__main__":
           measured_down+=[float(result[3])]
           break
            
-  print(["-"]+all_masses)
+  print(datasets+all_masses)
   print(measured)
   print(measured_up)
   print(measured_down)
@@ -322,7 +325,7 @@ if __name__=="__main__":
   l.SetTextSize(0.035)
   l.SetFillStyle(0)
   
-  hist=TGraphAsymmErrors(len(all_masses[1:-1]),array.array("d",all_masses[1:-1]),array.array("d",measured[2:-1]),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",measured_down[2:-1]),array.array("d",measured_up[2:-1]))
+  hist=TGraphAsymmErrors(len(all_masses[1:-1]),array.array("d",all_masses[1:-1]),array.array("d",measured[1+len(datasets):-1]),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",measured_down[1+len(datasets):-1]),array.array("d",measured_up[1+len(datasets):-1]))
   hist.GetXaxis().SetTitle("W Mass generated (GeV)")
   hist.GetYaxis().SetTitle("W Mass measured (GeV)")
   hist.SetTitle("")
