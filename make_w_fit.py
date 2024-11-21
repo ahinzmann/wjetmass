@@ -229,7 +229,6 @@ if __name__=="__main__":
     canvas.Update()
     canvas.RedrawAxis()
     canvas.GetFrame().Draw()
-
     canvas.SaveAs("w_mass_"+var+"-"+str(skip)+".pdf")
    
     canvas=TCanvas("chi2-"+var+"-"+str(skip), "chi2-"+var+"-"+str(skip), 0, 0, 300, 300)
@@ -291,6 +290,11 @@ if __name__=="__main__":
     #else:
     #  measured_down+=[10]
   
+    CMS.CMS_lumi(canvas, 0)
+    canvas.Modified()
+    canvas.Update()
+    canvas.RedrawAxis()
+    canvas.GetFrame().Draw()
     canvas.SaveAs("chi2_"+var+"-"+str(skip)+".pdf")
 
     ### Carry our LinearTemplateFit
@@ -373,4 +377,9 @@ if __name__=="__main__":
   hist.SetMinimum(all_masses[0])
   hist.SetMaximum(all_masses[-1])
   
+  CMS.CMS_lumi(canvas, 0)
+  canvas.Modified()
+  canvas.Update()
+  canvas.RedrawAxis()
+  canvas.GetFrame().Draw()
   canvas.SaveAs("measured_"+var+".pdf")
