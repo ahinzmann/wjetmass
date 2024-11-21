@@ -5,6 +5,8 @@ import os
 import numpy as np
 import array
 import scipy.stats as stats
+import cmsstyle as CMS
+CMS.SetExtraText("Preliminary")
 
 def is_float_try(str):
     try:
@@ -50,12 +52,19 @@ if __name__=="__main__":
  #gROOT.Reset()
  gROOT.SetStyle("Plain")
  gROOT.SetBatch(True)
+
+ CMS.SetLumi("138")
+ CMS.SetEnergy("13")
+ CMS.ResetAdditionalInfo()
+ CMS.setCMSStyle()
+
  gStyle.SetOptStat(0)
  gStyle.SetOptFit(0)
- gStyle.SetTitleOffset(1.2,"Y")
- gStyle.SetPadLeftMargin(0.15)
+ gStyle.SetTitleOffset(1.2,"X")
+ gStyle.SetTitleOffset(1.4,"Y")
+ gStyle.SetPadLeftMargin(0.18)
  gStyle.SetPadBottomMargin(0.15)
- gStyle.SetPadTopMargin(0.05)
+ gStyle.SetPadTopMargin(0.07)
  gStyle.SetPadRightMargin(0.05)
  gStyle.SetMarkerSize(2.5)
  gStyle.SetHistLineWidth(1)
@@ -104,8 +113,8 @@ if __name__=="__main__":
     colors=[1,2,3,4,6,7,8,9,12,28,34,38,40,41,42,43,44,45,46,47,48,49]
     color=0
 
-    l=TLegend(0.40,0.65,0.95,0.93,"no N2 cut" if "d01" in var else "N2<0.2")
-    l.SetTextSize(0.035)
+    l=TLegend(0.50,0.60,0.95,0.90,"no N2 cut" if "d01" in var else "N2<0.2")
+    l.SetTextSize(0.04)
     l.SetFillStyle(0)
     
     xs=[]
@@ -114,6 +123,7 @@ if __name__=="__main__":
     max_b=3
     
     first=True
+    firsthist=None
     for mass in ["Data",*masses]:
         if mass=="Data":
           if skip=="0Data":
@@ -201,22 +211,32 @@ if __name__=="__main__":
         
         if first:
           first=False
-          hist.Draw("hp")
+          hist.SetMarkerSize(0)
+          hist.SetLineWidth(2)
+          hist.Draw("e")
+          firsthist=hist
         else:
           hist.Draw("hpsame")
               
-        l.AddEntry(hist,str(mass)+(" GeV" if not mass=="Data" else ""),"lp")
+        l.AddEntry(hist,str(mass)+(" GeV" if not mass=="Data" else ""),"le" if mass=="Data" else "lp")
         color+=1
 
+    firsthist.Draw("esame")
     l.Draw("same")
           
+    CMS.CMS_lumi(canvas, 0)
+    canvas.Modified()
+    canvas.Update()
+    canvas.RedrawAxis()
+    canvas.GetFrame().Draw()
+
     canvas.SaveAs("w_mass_"+var+"-"+str(skip)+".pdf")
    
     canvas=TCanvas("chi2-"+var+"-"+str(skip), "chi2-"+var+"-"+str(skip), 0, 0, 300, 300)
     canvas.cd()
     
-    l=TLegend(0.40,0.65,0.95,0.93,"no N2 cut" if "d01" in var else "N2<0.2")
-    l.SetTextSize(0.035)
+    l=TLegend(0.50,0.65,0.95,0.93,"no N2 cut" if "d01" in var else "N2<0.2")
+    l.SetTextSize(0.04)
     l.SetFillStyle(0)
     
     hist=TGraph(len(chi2s),array.array("d",xs),array.array("d",chi2s))
