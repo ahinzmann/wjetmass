@@ -33,17 +33,18 @@ def getHist(filename,var,histname):
                 print(l)
                 binning.append(float(s[0]))
                 lastx=float(s[1])
-                ys+=[float(s[2])]
+                ys+=[(float(s[2]),float(s[3]))]
               if len(s)==6 and is_float_try(s[0]):
                 print(l)
                 binning.append(float(s[0])-float(s[1]))
                 lastx=float(s[0])+float(s[2])
-                ys+=[float(s[3])]
+                ys+=[(float(s[3]),float(s[4]))]
         binning.append(lastx)
         hist=TH1F(histname,histname,len(binning)-1,binning)
         i=1
-        for y in ys:
+        for y,yerror in ys:
           hist.SetBinContent(i,y)
+          hist.SetBinError(i,yerror)
           i+=1
         return hist
         
@@ -53,7 +54,9 @@ if __name__=="__main__":
  gROOT.SetStyle("Plain")
  gROOT.SetBatch(True)
 
- CMS.SetLumi("138")
+ postfix="" #"-UL18"
+
+ CMS.SetLumi("138" if postfix=="" else postfix.strip("-"))
  CMS.SetEnergy("13")
  CMS.ResetAdditionalInfo()
  CMS.setCMSStyle()
@@ -77,7 +80,7 @@ if __name__=="__main__":
  gStyle.SetEndErrorSize(5)
  
  all_masses=[79,80,80.4,81,82]
-
+ 
  for var in ["d01-x01-y01","d02-x01-y01"
               ]:
   measured=[]
@@ -127,7 +130,7 @@ if __name__=="__main__":
     for mass in ["Data",*masses]:
         if mass=="Data":
           if skip=="0Data":
-            samplename="HEPData-yoda1"
+            samplename="HEPData"+postfix+"-yoda1"
           elif skip=="0DataNoSys":
             samplename="HEPData-yoda1-NoSys"
           elif skip=="0MP":
@@ -156,6 +159,9 @@ if __name__=="__main__":
           for b in range(hist.GetNbinsX()):
             hist.SetBinError(b+1,histdata.GetBinError(b+1))
           histref=hist.Clone("ref"+var+"-"+str(skip))
+        else:
+          for b in range(hist.GetNbinsX()):
+            hist.SetBinError(b+1,0)
 
         datay=[]
         mcy=[]
@@ -229,7 +235,7 @@ if __name__=="__main__":
     canvas.Update()
     canvas.RedrawAxis()
     canvas.GetFrame().Draw()
-    canvas.SaveAs("w_mass_"+var+"-"+str(skip)+".pdf")
+    canvas.SaveAs("w_mass_"+var+"-"+str(skip)+postfix+".pdf")
    
     canvas=TCanvas("chi2-"+var+"-"+str(skip), "chi2-"+var+"-"+str(skip), 0, 0, 300, 300)
     canvas.cd()
@@ -295,7 +301,7 @@ if __name__=="__main__":
     canvas.Update()
     canvas.RedrawAxis()
     canvas.GetFrame().Draw()
-    canvas.SaveAs("chi2_"+var+"-"+str(skip)+".pdf")
+    canvas.SaveAs("chi2_"+var+"-"+str(skip)+postfix+".pdf")
 
     ### Carry our LinearTemplateFit
     with open("CMS_wjetmass_"+var+"-"+str(skip)+"_data.txt","w") as f:
@@ -382,4 +388,4 @@ if __name__=="__main__":
   canvas.Update()
   canvas.RedrawAxis()
   canvas.GetFrame().Draw()
-  canvas.SaveAs("measured_"+var+".pdf")
+  canvas.SaveAs("measured_"+var+postfix+".pdf")

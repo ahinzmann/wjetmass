@@ -10,6 +10,8 @@ submission.add_link("Webpage with all figures and tables", "https://cms-results.
 submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:TODO")
 submission.add_record_id(0, "inspire")
 
+postfix="" #"_UL18"
+
 n=0
 for pt in ["sum","pt1","pt2","pt3"]:
  for matching in ["","_NoMatching"]:
@@ -25,7 +27,7 @@ for pt in ["sum","pt1","pt2","pt3"]:
    #table.add_image("m_unfold_"+pt+"inclusive"+selection+matching+".pdf")
 
    from hepdata_lib import RootFileReader
-   reader = RootFileReader("CombinedFit_results"+selection+matching+".root")
+   reader = RootFileReader("CombinedFit_results"+selection+matching+postfix+".root")
    Data = reader.read_graph("munfold_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt"))
 
    if Data["x"][-1]<500:
