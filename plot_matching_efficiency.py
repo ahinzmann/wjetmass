@@ -59,6 +59,7 @@ if __name__=="__main__":
   gStyle.SetEndErrorSize(5)
   
   for var in ["Jet-softdrop-mass-650","Jet-softdrop-mass-N2-650"]:
+  #for var in ["Jet-softdrop-mass","Jet-softdrop-mass-N2"]:
   
     canvas=TCanvas("efficiency-"+var, "efficiency-"+var, 0, 0, 300, 300)
     canvas.cd()
@@ -72,7 +73,7 @@ if __name__=="__main__":
     l.SetTextSize(0.035)
     l.SetFillStyle(0)
 
-    for sample,samplename in [("WJET_MadgraphPythia_12Sep2024","Madgraph+Pythia"),("WJET_MadgraphHerwig_12Sep2024","Madgraph+Herwig")]: #,("WJET_Pythia8_CP5_12Sep2024","Pythia")]:
+    for sample,samplename in [("WJET_MadgraphPythia_12Sep2024","Madgraph+Pythia"),("WJET_MadgraphHerwig_12Sep2024","Madgraph+Herwig"),("WJET_Pythia8_CP5_12Sep2024","Pythia")]:
         filename=sample+".yoda"
         histref=getHist(filename,var,var+sample)
         hist=getHist(filename,var+"-match",var+sample)
@@ -90,8 +91,8 @@ if __name__=="__main__":
         hist.SetMarkerColor(colors[color])
         hist.SetMarkerSize(1)
 
-        if samplename=="Pythia8":
-          hist.Draw("hist")
+        if color==0:
+          hist.Draw("histpl")
         else:
           hist.Draw("histplsame")
               

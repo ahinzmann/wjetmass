@@ -10,7 +10,7 @@ submission.add_link("Webpage with all figures and tables", "https://cms-results.
 submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:TODO")
 submission.add_record_id(0, "inspire")
 
-postfix="" #"_UL18"
+postfix="_UL17_NoModel" #"_NoSys" #"_UL16postVFP"
 
 n=0
 for pt in ["sum","pt1","pt2","pt3"]:

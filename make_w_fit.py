@@ -18,6 +18,7 @@ def is_float_try(str):
 def getHist(filename,var,histname):
         f=open(filename)
         print("File:",filename)
+        
         start=False
         binning=array.array('d')
         lastx=-1
@@ -39,13 +40,15 @@ def getHist(filename,var,histname):
                 binning.append(float(s[0])-float(s[1]))
                 lastx=float(s[0])+float(s[2])
                 ys+=[(float(s[3]),float(s[4]))]
-        binning.append(lastx)
+        #binning.append(lastx)
+        binning.append(250) # move last border from 1000 to 250
         hist=TH1F(histname,histname,len(binning)-1,binning)
         i=1
         for y,yerror in ys:
           hist.SetBinContent(i,y)
           hist.SetBinError(i,yerror)
           i+=1
+        hist.GetXaxis().ChangeLabel(len(ys)+1,-1,-1,-1,-1,-1,"1000")
         return hist
         
 if __name__=="__main__":
@@ -54,7 +57,7 @@ if __name__=="__main__":
  gROOT.SetStyle("Plain")
  gROOT.SetBatch(True)
 
- postfix="" #"-UL18"
+ postfix="" #"-UL18-Asimov"
 
  CMS.SetLumi("138" if postfix=="" else postfix.strip("-"))
  CMS.SetEnergy("13")
@@ -67,7 +70,7 @@ if __name__=="__main__":
  gStyle.SetTitleOffset(1.4,"Y")
  gStyle.SetPadLeftMargin(0.18)
  gStyle.SetPadBottomMargin(0.15)
- gStyle.SetPadTopMargin(0.07)
+ gStyle.SetPadTopMargin(0.08)
  gStyle.SetPadRightMargin(0.05)
  gStyle.SetMarkerSize(2.5)
  gStyle.SetHistLineWidth(1)
@@ -86,7 +89,7 @@ if __name__=="__main__":
   measured=[]
   measured_up=[]
   measured_down=[]
-  datasets=["0Data","0DataNoSys","0MP","0MH"]
+  datasets=["0Data","0DataNoSys","0MP","0MH","0CP1","0CP2","0CP5","0CP5highstat"]
   for skip in [*datasets,*all_masses]:
 
     data=[]
@@ -94,9 +97,9 @@ if __name__=="__main__":
     templates=[]
 
     if "d01" in var:
-      corr_file="poi_correlation_matrix-noN2"+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
+      corr_file="poi_correlation_matrix-noN2"+postfix+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
     else:
-      corr_file="poi_correlation_matrix-withN2"+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
+      corr_file="poi_correlation_matrix-withN2"+postfix+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
     result = np.load(corr_file, allow_pickle=True, encoding="latin1").item()
     pois = result["pois"]
     corr = result["correlationMatrix"]
@@ -116,7 +119,7 @@ if __name__=="__main__":
     colors=[1,2,3,4,6,7,8,9,12,28,34,38,40,41,42,43,44,45,46,47,48,49]
     color=0
 
-    l=TLegend(0.50,0.60,0.95,0.90,"no N2 cut" if "d01" in var else "N2<0.2")
+    l=TLegend(0.45,0.60,0.95,0.90,"")#"no N2 cut" if "d01" in var else "N2<0.2")
     l.SetTextSize(0.04)
     l.SetFillStyle(0)
     
@@ -137,14 +140,24 @@ if __name__=="__main__":
             samplename="WJET_MadgraphPythia_12Sep2024"
           elif skip=="0MH":
             samplename="WJET_MadgraphHerwig_17Sep2024"
+          elif skip=="0CP1":
+            samplename="WJET_Pythia8_CP1_10Sep2025"
+          elif skip=="0CP2":
+            samplename="WJET_Pythia8_CP2_10Sep2025"
+          elif skip=="0CP5":
+            samplename="WJET_Pythia8_CP5_12Sep2024"
+          elif skip=="0CP5highstat":
+            samplename="WJET_Pythia8_CP5_12Jun2025"
           else:
-            samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Sep2024"
+              samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Jun2025" # high stat used for CP2 check
+            #  samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
         else:
-          samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Sep2024"
+            samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Jun2025" # high stat sued for CP2 check
+          #  samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
         filename=samplename+".yoda"
         hist=getHist(filename,var,var+samplename)
-        hist.GetXaxis().SetTitle("Softdrop Mass (GeV)")
-        hist.GetYaxis().SetTitle("1/#sigma d#sigma/dm_{SD} (1/GeV)")
+        hist.GetXaxis().SetTitle("m_{SD,ptcl} [GeV]")
+        hist.GetYaxis().SetTitle("1/#sigma d#sigma/dm_{SD,ptcl} [1/GeV]")
         hist.SetTitle("")
         hists+=[hist]
         if "Data" in samplename:
@@ -205,7 +218,8 @@ if __name__=="__main__":
         #hist.GetYaxis().SetRangeUser(0,1.2)
         if "Data" in samplename:
           data_max=hist.GetMaximum()
-        hist.GetYaxis().SetRangeUser(0,data_max*2.0)
+          data_min=hist.GetMinimum()
+          hist.GetYaxis().SetRangeUser(0,data_max*1.5)
 
         #hist.SetLineWidth(1)
         hist.SetLineColor(colors[color])
@@ -213,7 +227,7 @@ if __name__=="__main__":
         hist.SetMarkerStyle(20+color)
         hist.SetMarkerColor(colors[color])
         hist.SetMarkerSize(1)
-        canvas.SetLogx()
+        #canvas.SetLogy()
         
         if first:
           first=False
@@ -224,7 +238,7 @@ if __name__=="__main__":
         else:
           hist.Draw("hpsame")
               
-        l.AddEntry(hist,str(mass)+(" GeV" if not mass=="Data" else ""),"le" if mass=="Data" else "lp")
+        l.AddEntry(hist,("" if mass=="Data" else "W+Jets m_{W} = ")+str("Pythia "+str(skip).strip("0") if "CP" in str(skip) and mass=="Data" else ("Madgraph+Pythia" if skip=="0MP" and mass=="Data" else ("Madgraph+Herwig" if skip=="0MH" and mass=="Data" else mass)))+(" GeV" if not mass=="Data" else ""),"le" if mass=="Data" else "lp")
         color+=1
 
     firsthist.Draw("esame")
@@ -240,12 +254,12 @@ if __name__=="__main__":
     canvas=TCanvas("chi2-"+var+"-"+str(skip), "chi2-"+var+"-"+str(skip), 0, 0, 300, 300)
     canvas.cd()
     
-    l=TLegend(0.50,0.65,0.95,0.93,"no N2 cut" if "d01" in var else "N2<0.2")
+    l=TLegend(0.45,0.65,0.95,0.93,"")#"no N2 cut" if "d01" in var else "N2<0.2")
     l.SetTextSize(0.04)
     l.SetFillStyle(0)
     
     hist=TGraph(len(chi2s),array.array("d",xs),array.array("d",chi2s))
-    hist.GetXaxis().SetTitle("W Mass (GeV)")
+    hist.GetXaxis().SetTitle("W Mass [GeV]")
     hist.GetYaxis().SetTitle("#chi^{2} probabilty")
     hist.SetTitle("")
     hists+=[hist]
@@ -276,7 +290,7 @@ if __name__=="__main__":
     max_m=1e10
     best_chi2=-1e10
     best_m=-1e10
-    for m in range(masses[0]*100,masses[-1]*100):
+    for m in range(int(masses[0]*100),int(masses[-1]*100)):
        chi2=f.Eval(m/100)
        if chi2>0.68:
          if min_m<0: min_m=m
@@ -327,12 +341,15 @@ if __name__=="__main__":
         for m in range(len(masses)):
           s+=str(templates[m][t])+" "
         f.write(s+"\n") 
-    os.system("cd /afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen;/afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen/build/bin/CMS_wjetmass /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+" > /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt")
+    command="cd /afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen;/afs/desy.de/user/h/hinzmann/wjetmass/LinearTemplateFit/LTF_Eigen/build/bin/CMS_wjetmass /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+" > /afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt"
+    print(command)
+    os.system(command)
     with open("/afs/desy.de/user/h/hinzmann/wjetmass/CMS_wjetmass_"+var+"-"+str(skip)+"_fit.txt") as f:
       count=0
       for l in f.readlines():
         if "Error" in l:
-          raise("found error in fit")
+          print("found error in fit",l)
+          raise
         if "Fit done. Result:" in l:
          count+=1
          if count>1: # second method
@@ -351,13 +368,13 @@ if __name__=="__main__":
   canvas=TCanvas("measured-"+var, "measured-"+var, 0, 0, 300, 300)
   canvas.cd()
   
-  l=TLegend(0.40,0.65,0.95,0.93,"no N2 cut" if "d01" in var else "N2<0.2")
+  l=TLegend(0.40,0.65,0.95,0.93,"")#"no N2 cut" if "d01" in var else "N2<0.2")
   l.SetTextSize(0.035)
   l.SetFillStyle(0)
   
   hist=TGraphAsymmErrors(len(all_masses[1:-1]),array.array("d",all_masses[1:-1]),array.array("d",measured[1+len(datasets):-1]),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",[0]*len(all_masses[1:-1])),array.array("d",measured_down[1+len(datasets):-1]),array.array("d",measured_up[1+len(datasets):-1]))
-  hist.GetXaxis().SetTitle("W Mass generated (GeV)")
-  hist.GetYaxis().SetTitle("W Mass measured (GeV)")
+  hist.GetXaxis().SetTitle("W Mass generated [GeV]")
+  hist.GetYaxis().SetTitle("W Mass measured [GeV]")
   hist.SetTitle("")
   hists+=[hist]
   #hist.GetYaxis().SetRangeUser(0,3)
