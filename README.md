@@ -4,14 +4,14 @@
 
 ```
  !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/data/dust/user/hinzmann/qganalysis/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/data/dust/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/data/dust/user/hinzmann/qganalysis/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/nfs/dust/cms/user/hinzmann/qganalysis/miniconda3/bin:$PATH"
+        export PATH="/data/dust/user/hinzmann/qganalysis/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -20,18 +20,18 @@ unset __conda_setup
 ## create HepData entry
 
 ```
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/CombinedFit_results.root CombinedFit_results.root
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/CombinedFit_results.root CombinedFit_results_N2Cut.root
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf .
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf .
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf .
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf .
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf .
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf m_unfold_suminclusive_N2Cut.pdf
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf m_unfold_pt0inclusive_N2Cut.pdf
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf m_unfold_pt1inclusive_N2Cut.pdf
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf m_unfold_pt2inclusive_N2Cut.pdf
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf m_unfold_pt3inclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/CombinedFit_results.root CombinedFit_results.root
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/CombinedFit_results.root CombinedFit_results_N2Cut.root
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf .
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf .
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf .
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf .
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf .
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf m_unfold_suminclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf m_unfold_pt0inclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf m_unfold_pt1inclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf m_unfold_pt2inclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf m_unfold_pt3inclusive_N2Cut.pdf
 python3 make_hep_data.py
 ```
 
@@ -111,7 +111,7 @@ test if it runs locally with some random seed (here 123): source condor.sh 123
 submit one job (can be repeated multiple times): condor_submit condor.submit
 watch job status: condor_q
 check logfiles: gen*.log, gen*.o, gen*.e
-check outputfiles: /nfs/dust/cms/user/hinzmann/job*
+check outputfiles: /data/dust/user/hinzmann/job*
 ```
 
 ## estimate model uncertainty
@@ -120,8 +120,8 @@ python plot_model_uncertainty_map.py
 
 ## measure W mass
 
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/poi_correlation_matrix.npy poi_correlation_matrix-withN2.npy
-cp /nfs/dust/cms/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/poi_correlation_matrix.npy poi_correlation_matrix-noN2.npy
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/poi_correlation_matrix.npy poi_correlation_matrix-withN2.npy
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24/FullRunII/poi_correlation_matrix.npy poi_correlation_matrix-noN2.npy
 
 python make_w_fit.py
 

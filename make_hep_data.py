@@ -10,16 +10,21 @@ submission.add_link("Webpage with all figures and tables", "https://cms-results.
 submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:TODO")
 submission.add_record_id(0, "inspire")
 
-postfix="_UL17_NoModel" #"_NoSys" #"_UL16postVFP"
+postfix="_Jan2026" #_UL17_NoModel #"_NoSys" #"_UL16postVFP"
 
 n=0
-for pt in ["sum","pt1","pt2","pt3"]:
- for matching in ["","_NoMatching"]:
-  for selection in ["","_N2Cut"]:
+for matching in ["","_NoMatching"]:
+  for selection,pt in [("_N2Cut","pt1"),("_N2Cut","pt2"),("_N2Cut","pt3"),("_N2Cut","sum"),("","sum"),("","pt1"),("","pt2"),("","pt3")]:
    n+=1
    from hepdata_lib import Table
    text=("W-match, " if matching=="_NoMatching" else "")+selection.replace("_N2Cut","N2<0.2, ")+pt.replace("sum","p$_T$>650 GeV").replace("pt1","650<p$_T$<800 GeV").replace("pt2","800<p$_T$<1200 GeV").replace("pt3","p$_T$>1200 GeV")
-   table = Table("Figure "+str(n)+" ("+text+")")
+   if n<4:
+     figure="Figure 7"
+   elif n==4 or n==5:
+     figure="Figure 9"
+   else:
+     figure="Supplementary"
+   table = Table(figure+" ("+text+")")
    table.description = "Jet mass distribution, "+text
    table.location = "Data from Figure TODO, located on page TODO."
    table.keywords["observables"] = ["DSIG/DM"]

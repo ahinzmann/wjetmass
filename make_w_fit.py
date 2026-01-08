@@ -57,7 +57,7 @@ if __name__=="__main__":
  gROOT.SetStyle("Plain")
  gROOT.SetBatch(True)
 
- postfix="" #"-UL18-Asimov"
+ postfix="-Jan2026" #"-UL18-Asimov"
 
  CMS.SetLumi("138" if postfix=="" else postfix.strip("-"))
  CMS.SetEnergy("13")
@@ -84,7 +84,8 @@ if __name__=="__main__":
  
  all_masses=[79,80,80.4,81,82]
  
- for var in ["d01-x01-y01","d02-x01-y01"
+ #for var in ["d01-x01-y01","d02-x01-y01" # befoore Jan2026
+ for var in ["d05-x01-y01","d04-x01-y01" # since Jan2026
               ]:
   measured=[]
   measured_up=[]
@@ -96,7 +97,7 @@ if __name__=="__main__":
     correlations=[]
     templates=[]
 
-    if "d01" in var:
+    if "d01" in var or "d05" in var:
       corr_file="poi_correlation_matrix-noN2"+postfix+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
     else:
       corr_file="poi_correlation_matrix-withN2"+postfix+("-NoSys" if "NoSys" in str(skip) else "")+".npy"
@@ -149,11 +150,11 @@ if __name__=="__main__":
           elif skip=="0CP5highstat":
             samplename="WJET_Pythia8_CP5_12Jun2025"
           else:
-              samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Jun2025" # high stat used for CP2 check
-            #  samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
+            samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Jun2025" # high stat used for CP2 check, and post CWR
+            #samplename="WJET_Pythia8_CP5"+("_m"+str(skip)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
         else:
-            samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Jun2025" # high stat sued for CP2 check
-          #  samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
+            samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Jun2025" # high stat sued for CP2 check, and post CWR
+            #samplename="WJET_Pythia8_CP5"+("_m"+str(mass)).replace("_m80.4","")+"_12Sep2024" # low stat used for consistency with approval result
         filename=samplename+".yoda"
         hist=getHist(filename,var,var+samplename)
         hist.GetXaxis().SetTitle("m_{SD,ptcl} [GeV]")
