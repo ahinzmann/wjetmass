@@ -1,1 +1,4 @@
-TODO
+The jet mass of \PW bosons decaying to a quark-antiquark pair is measured in W+jets events  from proton-proton collisions at a center-of-mass energy of 13\TeV. The data used were collected by the CMS experiment at the CERN LHC and correspond to an integrated luminosity of 138\fbinv. 
+Hadronic decays of \PW bosons with high momenta produce strongly collimated decay products due to the large Lorentz boost, and are reconstructed as single large-radius jets. These jets have a characteristic substructure that is exploited to distinguish them from the large background of 
+quark- and gluon-initiated jets. The jet mass is computed using the soft-drop algorithm, which suppresses soft wide-angle radiation that leads to 
+a broadening of the jet mass distribution. For the first time, unfolded measurements are presented of the double-differential W+jets cross section as a function of the jet transverse momentum and soft-drop mass.

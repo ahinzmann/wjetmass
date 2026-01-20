@@ -32,6 +32,16 @@ cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18
 cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf m_unfold_pt1inclusive_N2Cut.pdf
 cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf m_unfold_pt2inclusive_N2Cut.pdf
 cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf m_unfold_pt3inclusive_N2Cut.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf ./m_unfold_suminclusive_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf ./m_unfold_pt0inclusive_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf ./m_unfold_pt1inclusive_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf ./m_unfold_pt2inclusive_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf ./m_unfold_pt3inclusive_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_suminclusive.pdf m_unfold_suminclusive_N2Cut_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt0inclusive.pdf m_unfold_pt0inclusive_N2Cut_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt1inclusive.pdf m_unfold_pt1inclusive_N2Cut_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt2inclusive.pdf m_unfold_pt2inclusive_N2Cut_NoMatching.pdf
+cp /data/dust/user/hinzmann/jetmass/JetMass/rhalph/UnfoldingParticleNet_N2Cut_18-09-24NoMatching/FullRunII/plots/pretty_unfold_sigma/m_unfold_pt3inclusive.pdf m_unfold_pt3inclusive_N2Cut_NoMatching.pdf
 python3 make_hep_data.py
 ```
 
