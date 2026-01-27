@@ -95,7 +95,7 @@ for selection in ["_N2Cut",""]:
      sup+=1
    table = Table(figure+" - Correlation matrix "+selection.replace("_N2Cut"," (N$_2$<0.2)"))
    table.description = "Correlation matrix"+selection.replace("_N2Cut",", N$_2$<0.2")+". Correlation matrix of the maximum likelihood estimators of the signal strength modifiers"+(" with inclusion of an N$_2$<0.2 selection in the particle-level definition" if selection=="_N2Cut" else "")+". The matrix is obtained after the fit to the data. The bin numbers correspond to 4 times the index (starting at 0) of the p$_{T}$ bin (650<p_$_{T}$<800, 800<p_$_{T}$<1200, p_$_{T}$>1200) plus the index (starting at 0) of the m$_{SD}$ bin (30<m$_{SD}$<80, 80<m$_{SD}$<90, 90<m$_{SD}$<100, m$_{SD}$>100)."
-   table.location = "Data from "+"Additional Figure "+str(sup)
+   table.location = "Data from "+figure
    table.keywords["reactions"] = ["P P --> W + JET"]
 
    if selection=="_N2Cut":
