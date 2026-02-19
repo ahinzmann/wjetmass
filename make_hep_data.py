@@ -57,6 +57,21 @@ for matching in ["","_NoMatching"]:
    from hepdata_lib import RootFileReader
    reader = RootFileReader("CombinedFit_results"+selection+matching+postfix+".root")
    Data = reader.read_graph("munfold_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt"))
+   Theory = reader.read_hist_1d("mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt"))
+
+   if selection=="_N2Cut":
+      hist_file="m_unfold_hists-withN2"+matching+postfix+".pkl"
+   else:
+      hist_file="m_unfold_hists-noN2"+matching+postfix+".pkl"
+   with open(hist_file,"rb") as histfile:
+     import pickle
+     hists=pickle.load(histfile)
+     #print(hists)
+     #print(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")])
+     total_theory_lower=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_lower"]
+     total_theory_upper=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_upper"]
+     nlo_theory_lower=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_lower"]
+     nlo_theory_upper=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_upper"]
 
    if Data["x"][-1]<500:
      Data["x"][-1]=545.
@@ -67,19 +82,31 @@ for matching in ["","_NoMatching"]:
    #print(Data["dx"])
    #print(Data["dy"])
    #print(Data["y"])
+   if Theory["x"][-1]<500:
+     Theory["x"][-1]=545.
 
    from hepdata_lib import Variable, Uncertainty
    mjet = Variable("m$_{SD}$", is_independent=True, is_binned=True, units="GeV")
    mjet.values = [[Data["x"][i]+Data["dx"][i][0],Data["x"][i]+Data["dx"][i][1]] for i in range(len(Data["x"]))]
-   data = Variable("d$\sigma$/dm$_{SD}$", is_independent=False, is_binned=False, units="fb/GeV")
+   data = Variable("d$\sigma$/dm$_{SD}$ Data", is_independent=False, is_binned=False, units="fb/GeV")
    data.values = Data["y"]
+   theory = Variable("W+jets (NLO)", is_independent=False, is_binned=False, units="fb/GeV")
+   theory.values = Theory["y"]
+   #print(matching,selection,pt,theory.values)
    # Multiply contents by bin-width
    #data.values = [data.values[i]*(mjet.values[i][1]-mjet.values[i][0]) for i in range(len(data.values))]
    unc_data = Uncertainty("total uncertainty", is_symmetric=False)
    unc_data.values = Data["dy"]
    data.add_uncertainty(unc_data)
+   total_theory = Uncertainty("total theory uncertainty", is_symmetric=False)
+   total_theory.values = zip(-total_theory_lower,total_theory_upper)
+   nlo_theory = Uncertainty("NLO QCD+EW uncertainty", is_symmetric=False)
+   nlo_theory.values = zip(-nlo_theory_lower,nlo_theory_upper)
+   theory.add_uncertainty(total_theory)
+   theory.add_uncertainty(nlo_theory)
    table.add_variable(mjet)
    table.add_variable(data)
+   table.add_variable(theory)
 
    if figure.startswith("Figure 7"):
      submission.add_table(table)
