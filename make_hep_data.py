@@ -1,4 +1,6 @@
-def round_value_to_decimals(cont, decimals=3):
+import numpy as np
+from math import log10, floor
+def round_value_to_decimals(cont, decimals=3, sig=2):
     """
     round all values in a dictionary to some decimals in one go
     default round to 3 digits after period
@@ -9,14 +11,16 @@ def round_value_to_decimals(cont, decimals=3):
     : type  decimals: integer
     """
 
-    decimals = int(decimals)
+    if not (isinstance(decimals,tuple) or isinstance(decimals,list)):
+      decimals = [decimals]*len(cont)
+    cont=list(cont)
 
     for i, val in enumerate(cont):
         if isinstance(val, tuple):
-            cont[i] = (round(val[0], decimals), round(val[1], decimals))
+            cont[i] = (round(val[0], max(decimals[i],sig-int(floor(log10(abs(val[0]))))-1)), round(val[1], max(decimals[i],sig-int(floor(log10(abs(val[1]))))-1)))
         else:
-            cont[i] = round(val, decimals)
-
+            cont[i] = round(val, max(decimals[i],sig-int(floor(log10(abs(val))))-1))
+    return cont
 
 print("start hepdata_lib")
 import hepdata_lib
@@ -68,10 +72,17 @@ for matching in ["","_NoMatching"]:
      hists=pickle.load(histfile)
      #print(hists)
      #print(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")])
-     total_theory_lower=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_lower"]
-     total_theory_upper=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_upper"]
-     nlo_theory_lower=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_lower"]
-     nlo_theory_upper=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_upper"]
+     theory_test=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["values"]
+     edges=hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["edges"]
+     total_theory_lower=np.sqrt(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_lower"])
+     total_theory_upper=np.sqrt(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["total_theory_upper"])
+     nlo_theory_lower=np.sqrt(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_lower"])
+     nlo_theory_upper=np.sqrt(hists["mc_truth_"+("no matching" if matching=="_NoMatching" else "matching")+"_"+pt.replace("pt","ipt")]["nlo_theory_upper"])
+     #print(matching,selection,pt)
+     #print(Theory["y"])
+     #print(edges, (edges[1:]-edges[:-1]))
+     #print(theory_test)
+     #print(total_theory_upper)
 
    if Data["x"][-1]<500:
      Data["x"][-1]=545.
@@ -89,19 +100,20 @@ for matching in ["","_NoMatching"]:
    mjet = Variable("m$_{SD}$", is_independent=True, is_binned=True, units="GeV")
    mjet.values = [[Data["x"][i]+Data["dx"][i][0],Data["x"][i]+Data["dx"][i][1]] for i in range(len(Data["x"]))]
    data = Variable("d$\sigma$/dm$_{SD}$ Data", is_independent=False, is_binned=False, units="fb/GeV")
-   data.values = Data["y"]
+   data.values = round_value_to_decimals(Data["y"],[4,3,3,4],2)
    theory = Variable("W+jets (NLO)", is_independent=False, is_binned=False, units="fb/GeV")
-   theory.values = Theory["y"]
+   theory.values = round_value_to_decimals(Theory["y"],[4,3,3,4],2)
    #print(matching,selection,pt,theory.values)
    # Multiply contents by bin-width
    #data.values = [data.values[i]*(mjet.values[i][1]-mjet.values[i][0]) for i in range(len(data.values))]
    unc_data = Uncertainty("total uncertainty", is_symmetric=False)
-   unc_data.values = Data["dy"]
+   unc_data.values = round_value_to_decimals(Data["dy"],[4,3,3,4],2)
    data.add_uncertainty(unc_data)
    total_theory = Uncertainty("total theory uncertainty", is_symmetric=False)
-   total_theory.values = zip(-total_theory_lower,total_theory_upper)
+   total_theory.values = round_value_to_decimals(zip(-total_theory_lower,total_theory_upper),[4,3,3,4],2)
+   #print(total_theory.values)
    nlo_theory = Uncertainty("NLO QCD+EW uncertainty", is_symmetric=False)
-   nlo_theory.values = zip(-nlo_theory_lower,nlo_theory_upper)
+   nlo_theory.values = round_value_to_decimals(zip(-nlo_theory_lower,nlo_theory_upper),[4,3,3,4],2)
    theory.add_uncertainty(total_theory)
    theory.add_uncertainty(nlo_theory)
    table.add_variable(mjet)
@@ -113,7 +125,6 @@ for matching in ["","_NoMatching"]:
    else:
      add_tables+=[table]
 
-import numpy as np
 for selection in ["_N2Cut",""]:
    if selection=="_N2Cut":
      figure="Figure 8"
@@ -144,7 +155,7 @@ for selection in ["_N2Cut",""]:
      x.values.append(b)
      x2.values.append(b1)
      y.values.append(float(corr[b+4,b1+4]))
-   round_value_to_decimals(y.values)
+   y.values=round_value_to_decimals(y.values,3,0)
    #print(x.values,x2.values,y.values)
    table.add_variable(x)
    table.add_variable(x2)

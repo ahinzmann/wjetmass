@@ -84,13 +84,22 @@ if __name__=="__main__":
  
  all_masses=[79,80,80.4,81,82]
  
+ import json
+ with open('impacts.json', 'r') as f:
+    impactf = json.load(f)
+    #print(impactf["params"])
+ datasets=[]
+ datasets+=["0Data","0DataNoSys","0MP","0MH","0CP1","0CP2","0CP5","0CP5highstat"]
+ for param in impactf["params"]:
+     datasets+=["0DataImpact_"+param["name"]]
+     #if len(datasets)>10: break
+ 
  #for var in ["d01-x01-y01","d02-x01-y01" # befoore Jan2026
  for var in ["d05-x01-y01","d04-x01-y01" # since Jan2026
               ]:
   measured=[]
   measured_up=[]
   measured_down=[]
-  datasets=["0Data","0DataNoSys","0MP","0MH","0CP1","0CP2","0CP5","0CP5highstat"]
   for skip in [*datasets,*all_masses]:
 
     data=[]
@@ -133,7 +142,7 @@ if __name__=="__main__":
     firsthist=None
     for mass in ["Data",*masses]:
         if mass=="Data":
-          if skip=="0Data":
+          if skip=="0Data" or (isinstance(skip,str) and "0DataImpact" in skip):
             samplename="HEPData"+postfix+"-yoda1"
           elif skip=="0DataNoSys":
             samplename="HEPData-yoda1-NoSys"
@@ -165,6 +174,14 @@ if __name__=="__main__":
           for b in range(hist.GetNbinsX()):
             hist.SetBinContent(b+1,hist.GetBinContent(b+1)*hist.GetXaxis().GetBinWidth(b+1))
             hist.SetBinError(b+1,hist.GetBinError(b+1)*hist.GetXaxis().GetBinWidth(b+1))
+        if mass=="Data" and isinstance(skip,str) and "Impact" in skip:
+          for param in impactf["params"]:
+            if skip=="0DataImpact_"+param["name"]:
+              for b in range(hist.GetNbinsX()):
+                shiftup=param["r_ptgen1_msdgen"+str(b)][0]/param["r_ptgen1_msdgen"+str(b)][1]
+                print(skip,shiftup,param["r_ptgen1_msdgen"+str(b)])
+                hist.SetBinContent(b+1,hist.GetBinContent(b+1)*shiftup)
+                hist.SetBinError(b+1,hist.GetBinError(b+1)*shiftup)
         hist.Scale(1.0/hist.Integral(min_b+1,max_b))
         if "Data" in samplename:
           histdata=hist.Clone("data"+var)
@@ -365,6 +382,23 @@ if __name__=="__main__":
   print(measured)
   print(measured_up)
   print(measured_down)
+  impacts=[measured[m]-measured[0] for m in range(len(measured)) if m<len(datasets)]
+  print(impacts)
+  summedimpacts={}
+  groups=["jec","tf_params","triggersf","wjets_W_tag_eff_sf","toppt_reweight","prefiring_variation"]
+  for name,impact in zip(datasets,impacts):
+    group="_".join(name.split("_")[1:])
+    print(group)
+    for g in groups:
+      if g in group:
+        group=g
+    if not group in summedimpacts.keys():
+      summedimpacts[group]=pow(impact,2)
+    else:
+      summedimpacts[group]+=pow(impact,2)
+  for group in summedimpacts.keys():
+    print(group,sqrt(summedimpacts[group]))
+  
 
   canvas=TCanvas("measured-"+var, "measured-"+var, 0, 0, 300, 300)
   canvas.cd()
